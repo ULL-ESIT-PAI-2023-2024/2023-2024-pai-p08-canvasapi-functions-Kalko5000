@@ -11,13 +11,31 @@
  * @example tsc --outFile graphic-calculator.js client.ts
  */
 
+///<reference path='point.ts'/>
 ///<reference path='grid.ts'/>
-///<reference path='function.ts'/>
+///<reference path='func.ts'/>
+///<reference path='exp.ts'/>
+///<reference path='sin.ts'/>
+///<reference path='cos.ts'/>
+///<reference path='sqrt.ts'/>
 
 const main = function() {
-  let grid: Grid = new Grid(40);
-  grid.draw();
-  grid.adjustCenter();
+  const SCALE: number = 40; // Margin of Grid === Scale, so each cell is 1x1 in size. Works well with 20, 40 & 80
+  
+  let grid: Grid = new Grid(SCALE);
+  grid.drawLines();
+  grid.alignCenter();
+  
+  let exp: Func = new Exp('red', SCALE);
+  exp.evaluate();
+  let sin: Func = new Sin('blue', SCALE);
+  sin.evaluate();
+  let cos: Func = new Cos('yellow', SCALE);
+  cos.evaluate();
+  let sqrt: Func = new Sqrt('green', SCALE);
+  sqrt.evaluate();
+
+  grid.drawNumbers(); // Done after functions so that grid numbers are displayed above these
 }
 
 main();

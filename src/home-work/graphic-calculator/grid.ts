@@ -10,10 +10,11 @@
  * @see {@link https://developer.mozilla.org/es/docs/Web/API/Canvas_API/Tutorial}
  */
 
+/** @class */
 class Grid {
   /** @constructor */
   constructor(
-    private margin: number,
+    private readonly scale: number, // Scale === Margin, so that each cell is 1x1 in size
     private readonly canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement,
     private context: CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D,
     private readonly WIDTH: number = canvas.width,
@@ -21,15 +22,15 @@ class Grid {
   ) {}
 
   /**
-   * @desc Draws a grid on to the Canvas
+   * @desc Draws the lines of a grid to the canvas, using the stored scale
    */
-  public draw(): void {
+  public drawLines(): void {
     const LINE_WIDTH: number = 0.5;
     const CENTER_LINE_WIDTH: number = 2;
     const COLOR: string = 'grey';
     const CENTER_COLOR: string = 'black';
 
-    for (let i: number = this.margin; i <= this.WIDTH - this.margin; i += this.margin) { // Vertical lines
+    for (let i: number = this.scale; i <= this.WIDTH - this.scale; i += this.scale) { // Vertical lines
       this.context.strokeStyle = COLOR;
       this.context.lineWidth = LINE_WIDTH;
       if(i === this.WIDTH / 2) { // Center Line
@@ -43,7 +44,7 @@ class Grid {
       this.context.stroke();
     } 
 
-    for (let i: number = this.margin; i <= this.HEIGHT - this.margin; i += this.margin) { // Horizontal lines
+    for (let i: number = this.scale; i <= this.HEIGHT - this.scale; i += this.scale) { // Horizontal lines
       this.context.strokeStyle = COLOR;
       this.context.lineWidth = LINE_WIDTH;
       if(i === this.HEIGHT / 2) {  // Center Line
@@ -59,19 +60,18 @@ class Grid {
   }
 
   /**
-   * @desc Moves the center of the Canvas to the middle
+   * @desc Moves the center of the Canvas to the middle position of itself and flips the Y axis to behave
+   *       how one would expect
    */
-  public adjustCenter(): void {
+  public alignCenter(): void {
     this.context.translate(this.WIDTH / 2, this.HEIGHT / 2);
-    this.context.scale(1, -1); // Flip the Y-axis, so it's positive goign above center
-    /*
-    this.context.strokeStyle = 'black';
-    this.context.lineWidth = 4;
-    this.context.beginPath();
-    this.context.moveTo(0, 0);
-    this.context.lineTo(-300, -300);
-    this.context.closePath();
-    this.context.stroke();
-    */
+    this.context.scale(this.scale, -this.scale); // Flip the Y-axis, so it's positive going above center
+  }
+
+  /**
+   * @desc Draws the numbers associated to the Grid (to scale)
+   */
+  public drawNumbers(): void {
+
   }
 }

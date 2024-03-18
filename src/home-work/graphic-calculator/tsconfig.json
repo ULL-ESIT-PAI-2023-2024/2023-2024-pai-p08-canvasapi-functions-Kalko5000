@@ -27,8 +27,13 @@
   "typedocOptions": {
     "entryPoints": [
       "./client.ts", 
-      "./function.ts", 
-      "./grid.ts"
+      "./grid.ts", 
+      "./func.ts",
+      "./exp.ts",
+      "./sin.ts",
+      "./cos.ts",
+      "./sqrt.ts",
+      "./point.ts"
     ],
     "out": "./docs"
   }
