@@ -72,6 +72,33 @@ class Grid {
    * @desc Draws the numbers associated to the Grid (to scale)
    */
   public drawNumbers(): void {
+    this.context.scale(1, -1);  // Flip Y scale so numbers can be shown properly
+    let horizontalSpace: number = 2;  // Adjustment to starting value for horizontal iterator, needed for uneven values
+    if ((-this.WIDTH / (2 * this.scale)) % 2 !== 0) horizontalSpace = 1;
+    let verticalSpace: number = 2;  // Adjustment to starting value for vertical iterator, needed for uneven values
+    if ((-this.HEIGHT / (2 * this.scale)) % 2 !== 0) verticalSpace = 1;
+    const HORIZONTAL_PLACEMENT: number = 0.6;
+    const VERTICAL_ADJUST: number = 0.2;
+    const VERTICAL_PLACEMENT: number = -0.2;
+    this.context.font = 'bold 0.6px Arial';
 
+    // Horizontal numbers
+    this.context.textAlign = 'center';
+    for (let i: number = -this.WIDTH / (2 * this.scale) + horizontalSpace; i < this.WIDTH / (2 * this.scale); i += 2) {
+      if (i === 0) continue;
+      this.context.fillText(i.toString(), i, HORIZONTAL_PLACEMENT);
+    }
+
+    // Vertical numbers
+    this.context.textAlign = 'right';
+    for (let i: number = -this.HEIGHT / (2 * this.scale) + verticalSpace; i < this.HEIGHT / (2 * this.scale); i += 2) {
+      if (i === 0) continue;
+      this.context.fillText((-i).toString(), VERTICAL_PLACEMENT, i + VERTICAL_ADJUST);  // Y axis is inverted so -i
+    }
+
+    // Center
+    this.context.fillText('0', VERTICAL_PLACEMENT, HORIZONTAL_PLACEMENT);
+
+    this.context.scale(1, -1);  // Change Y scale back to how it was
   }
 }

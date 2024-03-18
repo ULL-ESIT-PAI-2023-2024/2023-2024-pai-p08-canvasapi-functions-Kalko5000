@@ -97,6 +97,34 @@ var Grid = /** @class */ (function () {
      * @desc Draws the numbers associated to the Grid (to scale)
      */
     Grid.prototype.drawNumbers = function () {
+        this.context.scale(1, -1); // Flip Y scale so numbers can be shown properly
+        var horizontalSpace = 2; // Adjustment to starting value for horizontal iterator, needed for uneven values
+        if ((-this.WIDTH / (2 * this.scale)) % 2 !== 0)
+            horizontalSpace = 1;
+        var verticalSpace = 2; // Adjustment to starting value for vertical iterator, needed for uneven values
+        if ((-this.HEIGHT / (2 * this.scale)) % 2 !== 0)
+            verticalSpace = 1;
+        var HORIZONTAL_PLACEMENT = 0.6;
+        var VERTICAL_ADJUST = 0.2;
+        var VERTICAL_PLACEMENT = -0.2;
+        this.context.font = 'bold 0.6px Arial';
+        // Horizontal numbers
+        this.context.textAlign = 'center';
+        for (var i = -this.WIDTH / (2 * this.scale) + horizontalSpace; i < this.WIDTH / (2 * this.scale); i += 2) {
+            if (i === 0)
+                continue;
+            this.context.fillText(i.toString(), i, HORIZONTAL_PLACEMENT);
+        }
+        // Vertical numbers
+        this.context.textAlign = 'right';
+        for (var i = -this.HEIGHT / (2 * this.scale) + verticalSpace; i < this.HEIGHT / (2 * this.scale); i += 2) {
+            if (i === 0)
+                continue;
+            this.context.fillText((-i).toString(), VERTICAL_PLACEMENT, i + VERTICAL_ADJUST); // Y axis is inverted so -i
+        }
+        // Center
+        this.context.fillText('0', VERTICAL_PLACEMENT, HORIZONTAL_PLACEMENT);
+        this.context.scale(1, -1); // Change Y scale back to how it was
     };
     return Grid;
 }());
