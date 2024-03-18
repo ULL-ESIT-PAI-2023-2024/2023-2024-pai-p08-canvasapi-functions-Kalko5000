@@ -107,7 +107,8 @@ var Grid = /** @class */ (function () {
         var HORIZONTAL_PLACEMENT = 0.6;
         var VERTICAL_ADJUST = 0.2;
         var VERTICAL_PLACEMENT = -0.2;
-        this.context.font = 'bold 0.6px Arial';
+        var FONT_SIZE = 0.6;
+        this.context.font = "bold ".concat(FONT_SIZE, "px Arial");
         // Horizontal numbers
         this.context.textAlign = 'center';
         for (var i = -this.WIDTH / (2 * this.scale) + horizontalSpace; i < this.WIDTH / (2 * this.scale); i += 2) {

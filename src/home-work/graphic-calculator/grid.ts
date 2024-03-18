@@ -73,14 +73,17 @@ class Grid {
    */
   public drawNumbers(): void {
     this.context.scale(1, -1);  // Flip Y scale so numbers can be shown properly
+    
     let horizontalSpace: number = 2;  // Adjustment to starting value for horizontal iterator, needed for uneven values
     if ((-this.WIDTH / (2 * this.scale)) % 2 !== 0) horizontalSpace = 1;
     let verticalSpace: number = 2;  // Adjustment to starting value for vertical iterator, needed for uneven values
     if ((-this.HEIGHT / (2 * this.scale)) % 2 !== 0) verticalSpace = 1;
+
     const HORIZONTAL_PLACEMENT: number = 0.6;
     const VERTICAL_ADJUST: number = 0.2;
     const VERTICAL_PLACEMENT: number = -0.2;
-    this.context.font = 'bold 0.6px Arial';
+    const FONT_SIZE:number = 0.6;
+    this.context.font = `bold ${FONT_SIZE}px Arial`;
 
     // Horizontal numbers
     this.context.textAlign = 'center';
