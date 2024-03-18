@@ -15,7 +15,9 @@
 ///<reference path='function.ts'/>
 
 const main = function() {
-  
+  let grid: Grid = new Grid(40);
+  grid.draw();
+  grid.adjustCenter();
 }
 
 main();
