@@ -342,6 +342,82 @@ var Sqrt = /** @class */ (function (_super) {
  *
  * @author Thomas Edward Bradley
  * @since Mar 19, 2024
+ * @description Contains class Sin, an extension of the abstract class Func. Used to draw exponencial values.
+ * @see {@link https://developer.mozilla.org/es/docs/Web/API/Canvas_API/Tutorial}
+ */
+/** @class */
+var TaylorSin = /** @class */ (function (_super) {
+    __extends(TaylorSin, _super);
+    function TaylorSin(colorPass, scalePass, degree) {
+        var _this = _super.call(this, colorPass, scalePass) || this;
+        _this.colorPass = colorPass;
+        _this.scalePass = scalePass;
+        _this.degree = degree;
+        return _this;
+    }
+    /**
+   * @desc Abstract method implementation that checks if the function can be evaluated with negative numbers
+   * @returns {boolean} Returns true if can only be used with positive numbers
+   */
+    TaylorSin.prototype.checkOnlyPositive = function () {
+        return false;
+    };
+    /**
+     * @desc Abstract method implementation that evaluates a function for a given value (returning Y in the process)
+     * @param {number} value Value to evaluate the function at
+     * @returns {number} Value of Y after evaluating our function
+     */
+    TaylorSin.prototype.getCoordY = function (value) {
+        var count = value;
+        var sumNext = false;
+        for (var i = 3; i <= this.degree; ++i) {
+            if (this.isPrime(i)) {
+                if (sumNext) {
+                    count = count + (Math.pow(value, i) / this.getFactorial(i));
+                    sumNext = false;
+                }
+                else {
+                    count = count - (Math.pow(value, i) / this.getFactorial(i));
+                    sumNext = true;
+                }
+            }
+        }
+        return count;
+    };
+    /**
+     * @desc Checks if a value is prime
+     * @param {number} value Value to check
+     * @returns {boolean} True if prime
+     */
+    TaylorSin.prototype.isPrime = function (value) {
+        for (var i = 2; i < value; ++i) {
+            if (value % i === 0)
+                return false;
+        }
+        return true;
+    };
+    /**
+     * @desc Returns the value of the factorial
+     * @param {number} value Value to get factorial for
+     * @returns {number} Factorial of the given number
+     */
+    TaylorSin.prototype.getFactorial = function (value) {
+        var fact = 1;
+        for (var i = 1; i <= value; ++i) {
+            fact = fact * i;
+        }
+        return fact;
+    };
+    return TaylorSin;
+}(Func));
+/**
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Programación de Aplicaciones Interactivas
+ *
+ * @author Thomas Edward Bradley
+ * @since Mar 19, 2024
  * @description Client program to help make use of Grid and Function to display functions on a Canvas
  * @see {@link https://github.com/ULL-ESIT-PAI-2023-2024/2023-2024_P08_CanvasAPI-2/blob/main/p08_Canvas-GraphingCalculator.md}
  * @example tsc --outFile graphic-calculator.js client.ts
@@ -353,19 +429,16 @@ var Sqrt = /** @class */ (function (_super) {
 ///<reference path='sin.ts'/>
 ///<reference path='cos.ts'/>
 ///<reference path='sqrt.ts'/>
+///<reference path='taylorsin.ts'/>
 var main = function () {
     var SCALE = 40; // Margin of Grid === Scale, so each cell is 1x1 in size. Works well with 20, 40 & 80
     var grid = new Grid(SCALE);
     grid.drawLines();
     grid.alignCenter();
-    var exp = new Exp('red', SCALE);
-    exp.evaluate();
-    var sin = new Sin('blue', SCALE);
+    var sin = new Sin('yellow', SCALE);
     sin.evaluate();
-    var cos = new Cos('yellow', SCALE);
-    cos.evaluate();
-    var sqrt = new Sqrt('green', SCALE);
-    sqrt.evaluate();
+    var taylor = new TaylorSin('blue', SCALE, 7);
+    taylor.evaluate();
     grid.drawNumbers(); // Done after functions so that grid numbers are displayed above these
 };
 main();
